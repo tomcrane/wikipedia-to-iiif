@@ -3,43 +3,9 @@
 
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="http://universalviewer.io/examples/uv/uv.css">
-<script type="text/javascript" src="http://universalviewer.io/examples/lib/utils/dist/utils.js"></script>
-<script type="text/javascript" src="http://universalviewer.io/examples/uv/lib/offline.js"></script>
-<script type="text/javascript" src="http://universalviewer.io/examples/uv/helpers.js"></script>
-<style>
-        #uv {
-            width: 924px;
-            height: 668px;
-        }
-    </style>
 
+<iframe src="http://universalviewer.io/examples/uv/uv.html#?manifest={{ manifest }}&locales=en-GB:English (GB)" width="900" height="700" allowfullscreen frameborder="0"></iframe>
 
-<div id="uv" class="uv"></div>
-
-
-<script type="text/javascript" src="http://universalviewer.io/examples/uv/uv.js"></script>
-<script>
-
-    var uv, urlDataProvider;
-
-    window.addEventListener('uvLoaded', function(e) { 
-        urlDataProvider = new UV.URLDataProvider();
-        data = {
-            iiifResourceUri: '{{ manifest }}',
-            configUri: 'examples-config.json'
-        }
-        uv = createUV('#uv', data, urlDataProvider);
-
-        uv.on('created', function() {
-            Utils.Urls.setHashParameter('manifest', '{{ manifest }}');
-        });
-
-    }, false);
-
-
-
-</script>
 
 {% endblock %}
 
