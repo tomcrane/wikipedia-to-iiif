@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block head %}
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        textarea {
+            width:600px;
+            height:400px;
+        }
+    </style>
+    <title>{% block title %}{% endblock %} - Wiki to IIIF</title>
+    {% endblock %}
+</head>
+<body>    
+    <div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Flask
+flask-cors
+iiif-prezi
+requests
+beautifulsoup4
+
