@@ -53,7 +53,7 @@ def wiki(wiki_slug):
 def image_id(identifier):
     """Redirect a plain image id"""
     return flask.redirect(flask.url_for('image_info', identifier=identifier), code=303)
-    
+
 
 @app.route('/img/<identifier>/info.json')
 @cache.cached(timeout=600)
@@ -73,6 +73,7 @@ def image_api_request(identifier, **kwargs):
         TODO: A IIIF Image API request; redirect to Wikimedia image URI
     """
 
+
 def get_image_details(titles, size):
     url = COMMONS_TEMPLATE.format(unicode(size), titles)
     resp = requests.get(url, headers=HEADERS)
@@ -82,14 +83,14 @@ def set_canvas_metadata(wiki_info, canvas):
     if 'user' in wiki_info:
         canvas.set_metadata({"Wikipedia user": wiki_info['user']})
         extmetadata = wiki_info.get('extmetadata', {})
-        for key in extmetadata:
-            value = extmetadata[key].get('value', None)
-            if key == "LicenseUrl":
-                canvas.license = value
-            if key == "ImageDescription":
-                canvas.label = sanitise(value)
-            elif value:
-                canvas.set_metadata({key: sanitise(value)})
+    for key in extmetadata:
+        value = extmetadata[key].get('value', None)
+        if key == "LicenseUrl":
+            canvas.license = value
+        if key == "ImageDescription":
+            canvas.label = sanitise(value)
+        elif value:
+            canvas.set_metadata({key: sanitise(value)})
 
 
 def make_manifest(wiki_slug):
