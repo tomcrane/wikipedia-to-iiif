@@ -1,26 +1,40 @@
 import flask
 from flask_cors import CORS
+from flask_cache import Cache
 import requests
 from iiif_prezi.factory import ManifestFactory
-from bs4 import BeautifulSoup
+from html_sanitizer import Sanitizer
 import json
 
 
 app = flask.Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'filesystem', 'CACHE_DIR': './gen/cache'})
 CORS(app)
 
 WIKI_TEMPLATE = u"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts|images&imlimit=max&exintro=&titles="
-COMMONS_TEMPLATE = u"https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url|commonmetadata&iiurlwidth={0}&titles={1}"
+COMMONS_TEMPLATE = u"https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url|timestamp|user|mime|extmetadata&iiurlwidth={0}&titles={1}"
 HEADERS = { 'user-agent': 'iiif_test (tom.crane@digirati.com)' }
+sanitizer = Sanitizer({
+    'tags': {
+        'a', 'b', 'br', 'i', 'img', 'p', 'span'
+    },
+    'attributes': {
+        'a': ('href'),
+        'img': ('src', 'alt')
+    },
+    'empty': {'br'},
+    'separate': {'a', 'p'}
+})
+
+def cache_key():
+    return flask.request.url
 
 def sanitise(html):
-    soup = BeautifulSoup(html, 'lxml')
-    for tag in soup.findAll(True): 
-        tag.attrs = None
-    return "".join([unicode(x) for x in soup.find('body').findChildren()])
+    return sanitizer.sanitize(unicode(html))
 
 
 @app.route('/')
+@cache.cached(timeout=20)
 def index():
     with open('interesting_examples.json') as examples:
         return flask.render_template('index.html', examples=json.load(examples))
@@ -35,49 +49,90 @@ def wiki(wiki_slug):
     return flask.render_template('wiki.html', manifest=get_manifest_url(wiki_slug))
 
 
-@app.route('/iiif/<wiki_slug>')
-def iiif_manifest(wiki_slug):
-    # first get the image information for the slug
+@app.route('/img/<identifier>')
+def image_id(identifier):
+    """Redirect a plain image id"""
+    return flask.redirect(flask.url_for('image_info', identifier=identifier), code=303)
+    
+
+@app.route('/img/<identifier>/info.json')
+@cache.cached(timeout=600)
+def image_info(identifier):
+    """
+        TODO: Create an info.json for the wikipedia image
+        Use available sizes as per https://tomcrane.github.io/scratch/osd/iiif-sizes.html
+        This may not be worth it, just use a big image. Google Art Project images 
+        on Wikipedia tend to have several smallish sizes then one huge one that is really 
+        too big.
+    """
+
+
+@app.route('/img/<identifier>/<region>/<size>/<rotation>/<quality>.<fmt>')
+def image_api_request(identifier, **kwargs):
+    """
+        TODO: A IIIF Image API request; redirect to Wikimedia image URI
+    """
+
+def get_image_details(titles, size):
+    url = COMMONS_TEMPLATE.format(unicode(size), titles)
+    resp = requests.get(url, headers=HEADERS)
+    return resp.json().get('query', {}).get('pages', {})
+
+def set_canvas_metadata(wiki_info, canvas):
+    if 'user' in wiki_info:
+        canvas.set_metadata({"Wikipedia user": wiki_info['user']})
+        extmetadata = wiki_info.get('extmetadata', {})
+        for key in extmetadata:
+            value = extmetadata[key].get('value', None)
+            if key == "LicenseUrl":
+                canvas.license = value
+            if key == "ImageDescription":
+                canvas.label = sanitise(value)
+            elif value:
+                canvas.set_metadata({key: sanitise(value)})
+
+
+def make_manifest(wiki_slug):
+    """
+        Get the wiki article information with a list of its images
+        Then get a set of information for each image, and thumbs
+    """
     res = requests.get(WIKI_TEMPLATE + wiki_slug, headers=HEADERS)
     details = res.json()
     if "pages" in details.get('query', {}):
         page = details["query"]["pages"].values()[0]
         titles = u"|".join([image["title"] for image in page["images"]])
-        # Now get the image information
-        large_images = COMMONS_TEMPLATE.format(u"1600", titles)
-        thumbnails = COMMONS_TEMPLATE.format(u"100", titles)
-        print "______________________"
-        print large_images
-        print thumbnails
-        print "______________________"
-        large_images_resp = requests.get(large_images, headers=HEADERS)
-        query = large_images_resp.json()['query']
-
-
-        thumbs_resp = requests.get(thumbnails, headers=HEADERS)
-        thumbs_query = thumbs_resp.json()['query']
+        large_images = get_image_details(titles, 1600)
+        thumbnail_images = get_image_details(titles, 100)
         fac = ManifestFactory()
         fac.set_base_prezi_uri(get_manifest_url(''))
         manifest = fac.manifest(ident=get_manifest_url(wiki_slug), label=page['title'])
         manifest.description = sanitise(page['extract'])
         sequence = manifest.sequence(ident="normal", label="default order")
-        for image_page in query.get('pages', {}).values():
+        for image_page in large_images.values():
             page_id = image_page.get('pageid', None)
-            if page_id is not None:
+            wiki_info = image_page.get('imageinfo', [None])[0]
+            if wiki_info is not None and wiki_info['mime'] == "image/jpeg":
                 canvas = sequence.canvas(ident='c%s' % page_id, label=image_page['title'])
-                wiki_info = image_page['imageinfo'][0]
                 canvas.set_hw(wiki_info['thumbheight'], wiki_info['thumbwidth'])
+                set_canvas_metadata(wiki_info, canvas)
                 anno = canvas.annotation(ident='a%s' % page_id)
                 img = anno.image(ident=wiki_info['thumburl'], iiif=False)
                 img.set_hw(wiki_info['thumbheight'], wiki_info['thumbwidth'])
-                thumb_page = thumbs_query['pages'].get(str(page_id), None)
+                thumb_page = thumbnail_images.get(str(page_id), None)
                 if thumb_page is not None:
                     thumb_info = thumb_page['imageinfo'][0]
                     canvas.thumbnail = fac.image(ident=thumb_info['thumburl'])
+                    canvas.thumbnail.format = "image/jpeg"
                     canvas.thumbnail.set_hw(thumb_info['thumbheight'], thumb_info['thumbwidth'])
-        return flask.jsonify(manifest.toJSON(top=True))
+        return manifest.toJSON(top=True)
+    return {}
 
-    return flask.jsonify({})
+
+@app.route('/iiif/<wiki_slug>')
+@cache.cached(timeout=600)
+def iiif_manifest(wiki_slug):
+    return flask.jsonify(make_manifest(wiki_slug))
 
 
 if __name__ == "__main__":

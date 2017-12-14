@@ -1,6 +1,7 @@
 Flask
+Flask-Cache
 flask-cors
 iiif-prezi
 requests
-beautifulsoup4
+html-sanitizer
 
