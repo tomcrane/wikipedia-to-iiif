@@ -6,6 +6,8 @@ from iiif_prezi.factory import ManifestFactory
 from html_sanitizer import Sanitizer
 import json
 
+# from lxml import etree
+
 
 app = flask.Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'filesystem', 'CACHE_DIR': './gen/cache'})
@@ -35,9 +37,18 @@ def safe_str(obj):
         return str(obj)
     except UnicodeEncodeError:
         # obj is unicode
-        return unicode(obj).encode('unicode_escape')
+        return unicode(obj).encode('ascii', 'xmlcharrefreplace')
 
 def sanitise(html):
+
+    # test
+    # print "+++++++++++++++++++++++++++++++++++++++++++++"
+    # print html
+    # dom = etree.HTML(unicode(html))
+    # print "============================================="
+    # print etree.tostring(dom)
+    # print "============================================="
+
     return sanitizer.sanitize(safe_str(html))
 
 
@@ -139,7 +150,7 @@ def make_manifest(wiki_slug):
 
 
 @app.route('/iiif/<wiki_slug>')
-@cache.cached(timeout=600)
+@cache.cached(timeout=10)
 def iiif_manifest(wiki_slug):
     return flask.jsonify(make_manifest(wiki_slug))
 
