@@ -126,6 +126,7 @@ def make_manifest(wiki_slug):
         thumbnail_images = get_image_details(titles, 100)
         fac = ManifestFactory()
         fac.set_base_prezi_uri(get_manifest_url(''))
+        fac.set_debug("error")
         manifest = fac.manifest(ident=get_manifest_url(wiki_slug), label=page['title'])
         manifest.description = sanitise(page['extract'])
         sequence = manifest.sequence(ident="normal", label="default order")
@@ -156,4 +157,4 @@ def iiif_manifest(wiki_slug):
 
 
 if __name__ == "__main__":
-    app.run(threaded=True, debug=True, port=5000, host='0.0.0.0')
+    app.run(threaded=True, debug=False, port=5000, host='0.0.0.0')
