@@ -150,7 +150,7 @@ def make_manifest(wiki_slug):
 
 
 @app.route('/iiif/<wiki_slug>')
-@cache.cached(timeout=10)
+@cache.cached(timeout=600)
 def iiif_manifest(wiki_slug):
     return flask.jsonify(make_manifest(wiki_slug))
 
