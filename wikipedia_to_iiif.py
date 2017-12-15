@@ -29,8 +29,16 @@ sanitizer = Sanitizer({
 def cache_key():
     return flask.request.url
 
+def safe_str(obj):
+    """ return the byte string representation of obj """
+    try:
+        return str(obj)
+    except UnicodeEncodeError:
+        # obj is unicode
+        return unicode(obj).encode('unicode_escape')
+
 def sanitise(html):
-    return sanitizer.sanitize(unicode(html))
+    return sanitizer.sanitize(safe_str(html))
 
 
 @app.route('/')
