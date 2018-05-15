@@ -1,15 +1,29 @@
-FROM ubuntu
+FROM alpine:3.6
 
-RUN apt-get update -y && apt-get install -y python-pip python-dev build-essential
-COPY requirements.txt /opt/iiif/requirements.txt
-RUN pip install -r /opt/iiif/requirements.txt
+RUN apk add --update --no-cache --virtual=run-deps \
+  uwsgi \
+  uwsgi-python3 \
+  python3 \
+  python3-dev \
+  nginx \
+  ca-certificates \
+  libxml2-dev \
+  libxslt-dev \
+  jpeg-dev \
+  g++ \
+  gcc
 
-WORKDIR /opt/iiif
-EXPOSE 5000
+ENV EXAMPLE_VARIABLE example_value
 
-COPY templates /opt/iiif/templates
-COPY interesting_examples.json /opt/iiif/
-COPY wikipedia_to_iiif.py /opt/iiif/
-COPY run_server.sh /opt/iiif/run_server.sh
+WORKDIR /opt/app
+CMD ["/opt/app/run.sh"]
 
-CMD /opt/iiif/run_server.sh
+COPY run.sh /opt/app/
+RUN chmod +x /opt/app/run.sh
+
+COPY etc/nginx/default.conf /etc/nginx/conf.d/
+
+COPY app/requirements.txt /opt/app/
+RUN pip3 install --no-cache-dir -r /opt/app/requirements.txt
+
+COPY app /opt/app/

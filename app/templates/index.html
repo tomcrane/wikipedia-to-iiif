@@ -6,7 +6,7 @@
 <p>Append the Wikiepdia slug to the /wiki/ path, like these:</p>
 <ul>
     {% for slug in examples %}
-        <li><a href="{{ url_for('wiki', wiki_slug=slug) }}">{{ slug }}</a></li>
+        <li><a href="{{ url_for('wiki_page', wiki_slug=slug) }}">{{ slug }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
