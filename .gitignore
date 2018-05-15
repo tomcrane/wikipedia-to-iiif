@@ -100,5 +100,7 @@ ENV/
 # mypy
 .mypy_cache/
 
-gen/
 .vscode/
+runflask.sh
+
+gen/
