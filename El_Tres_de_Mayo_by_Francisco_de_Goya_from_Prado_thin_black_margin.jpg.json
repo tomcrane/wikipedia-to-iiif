@@ -1,0 +1,102 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "http://34.250.47.171:5000/iiif/File:File:El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg",
+    "@type": "sc:Manifest",
+    "description": "(single wikimedia image)",
+    "label": "File:El Tres de Mayo, by Francisco de Goya, from Prado thin black margin.jpg",
+    "sequences": [
+        {
+            "@id": "http://34.250.47.171:5000/iiif/sequence/normal.json",
+            "@type": "sc:Sequence",
+            "canvases": [
+                {
+                    "@id": "http://34.250.47.171:5000/iiif/canvas/c18777858.json",
+                    "@type": "sc:Canvas",
+                    "height": 6179,
+                    "images": [
+                        {
+                            "@id": "http://34.250.47.171:5000/iiif/annotation/a18777858.json",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "http://34.250.47.171:5000/iiif/canvas/c18777858.json",
+                            "resource": {
+                                "@id": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg/8000px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg",
+                                "@type": "dctypes:Image",
+                                "height": 6179,
+                                "width": 8000
+                            }
+                        }
+                    ],
+                    "label": "<p>The Third of May by Francisco Goya </p>",
+                    "metadata": [
+                        {
+                            "label": "Wikipedia user",
+                            "value": "Papa Lima Whiskey 2"
+                        },
+                        {
+                            "label": "DateTime",
+                            "value": "2012-03-21 14:28:31"
+                        },
+                        {
+                            "label": "ObjectName",
+                            "value": "El Tres de Mayo, by Francisco de Goya, from Prado thin black margin"
+                        },
+                        {
+                            "label": "CommonsMetadataExtension",
+                            "value": "1.2"
+                        },
+                        {
+                            "label": "Categories",
+                            "value": "Artworks with Wikidata item|Artworks with Wikidata item redundant creator|Artworks with accession number from Wikidata|Artworks with known accession number|CC-PD-Mark|El tres de mayo de 1808 en Madrid|Featured pictures on Wikipedia, English|Featured pictures on Wikipedia, Persian|Featured pictures on Wikipedia, Spanish|Large images|PD-Art (PD-old-100)|Prado in Google Earth|Retouched pictures|Uploaded with derivativeFX"
+                        },
+                        {
+                            "label": "DateTimeOriginal",
+                            "value": "2012-03-21 14:01"
+                        },
+                        {
+                            "label": "Credit",
+                            "value": "This file was derived from <a href=\"//commons.wikimedia.org/wiki/File:El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_in_Google_Earth.jpg\">El Tres de Mayo, by Francisco de Goya, from Prado in Google Earth.jpg</a>: <br>"
+                        },
+                        {
+                            "label": "Artist",
+                            "value": "<a href=\"//commons.wikimedia.org/wiki/File:El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_in_Google_Earth.jpg\">El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_in_Google_Earth.jpg</a>: Francisco de Goya  derivative work: <a href=\"//commons.wikimedia.org/w/index.php?title=User:Papa_Lima_Whiskey_2&amp;action=edit&amp;redlink=1\">Papa Lima Whiskey 2</a>  "
+                        },
+                        {
+                            "label": "AuthorCount",
+                            "value": "2"
+                        },
+                        {
+                            "label": "LicenseShortName",
+                            "value": "Public domain"
+                        },
+                        {
+                            "label": "UsageTerms",
+                            "value": "Public domain"
+                        },
+                        {
+                            "label": "AttributionRequired",
+                            "value": "false"
+                        },
+                        {
+                            "label": "Copyrighted",
+                            "value": "False"
+                        },
+                        {
+                            "label": "License",
+                            "value": "pd"
+                        }
+                    ],
+                    "thumbnail": {
+                        "@id": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg/100px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg",
+                        "@type": "dctypes:Image",
+                        "format": "image/jpeg",
+                        "height": 77,
+                        "width": 100
+                    },
+                    "width": 8000
+                }
+            ],
+            "label": "default order"
+        }
+    ]
+}

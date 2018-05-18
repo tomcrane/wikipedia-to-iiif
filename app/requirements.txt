@@ -1,7 +1,0 @@
-wheel
-logzero
-flask
-flask-cors
-iiif-prezi
-requests
-html-sanitizer
