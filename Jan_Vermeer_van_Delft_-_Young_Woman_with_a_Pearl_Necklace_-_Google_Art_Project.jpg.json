@@ -1,6 +1,6 @@
 {
     "@context": "http://iiif.io/api/presentation/2/context.json",
-    "@id": "http://34.250.47.171:5000/iiif/File:File:Jan_Vermeer_van_Delft_-_Young_Woman_with_a_Pearl_Necklace_-_Google_Art_Project.jpg",
+    "@id": "https://tomcrane.github.io/wikipedia-to-iiif/Jan_Vermeer_van_Delft_-_Young_Woman_with_a_Pearl_Necklace_-_Google_Art_Project.jpg.json",
     "@type": "sc:Manifest",
     "description": "(single wikimedia image)",
     "label": "File:Jan Vermeer van Delft - Young Woman with a Pearl Necklace - Google Art Project.jpg",
