@@ -1,6 +1,6 @@
 {
     "@context": "http://iiif.io/api/presentation/2/context.json",
-    "@id": "http://34.250.47.171:5000/iiif/File:File:El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg",
+    "@id": "https://tomcrane.github.io/wikipedia-to-iiif/El_Tres_de_Mayo_by_Francisco_de_Goya_from_Prado_thin_black_margin.jpg.json",
     "@type": "sc:Manifest",
     "description": "(single wikimedia image)",
     "label": "File:El Tres de Mayo, by Francisco de Goya, from Prado thin black margin.jpg",
