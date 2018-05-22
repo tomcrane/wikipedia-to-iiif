@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+    <title>Beyond the viewer</title>
+</head>
+<body>
+    
+    <h1>Beyond the Viewer</h1>
+
+    <h2>Fragments of content</h2>
+
+    <p>I was reading <i>Mysteries of the Rectangle</i> by Siri Hurstvedt. [pic] It's an interesting read, and my dead-tree edition has quite a few colour reproductions of the paintings and drawings that she writes about. But there are a lot of paintings and drawings mentioned, and only a few of them are reproduced in the printed book. Reading it in a coffee shop I kept checking out Wikipedia and looking at the works on my phone, and later at home on a nice big monitor. I could find every single artwork discussed on Wikipedia, often with a very high resolution image. The web is great! We have all these image resources!
+    </p>
+
+    <p>Photo of book page</p>
+
+    <p>One of the essays in the book is on Vermeer's <i>Young Woman with a Pearl Necklace</i>, in which Siri Hurstvedt writes about her response to the painting, and her flash of an idea that the painting echoes or represents earlier Italian paintings on the theme of the Annunciation - Mary being told by the angel Gabriel that she is pregnant with the son of God. </p>
+
+    <p>One piece of evidence she presents towards this interpretation is the presence of what looks like an egg in the painting. "What's that egg doing there?" she asks - the egg being a symbol that suggests pregnancy or fertility. She admits that the egg is "probably part of the window's architecture", but entertains the possibility that it is not an accident, a trick of the light, an unintended visual similarity but part of Vermeer's plan.</p>
+
+    <p>Naturally this is intriguing, a visual puzzle - nobody has mentioned this egg before. Is she reading too much into that detail?  I want to take a closer look. My literal-minded reading of the image is that Vermeer is simply painting the light falling in the curved ornamentation on top of the window frame; it only <i>happens</i> to look like an egg; it's an accidental optical illusion. But I can't be sure that that's all there is to it, so I want to share this detail with a friend, with my thoughts.</p>
+
+    <p>We don't need IIIF to go and take a closer look at Wikipedia's hi res image. I don't need IIIF to take a snippet from a screen shot of Wikipedia's image and email it to my friend. It would be nice to load it into a viewer for deep zoom, as it's quite a large image to download. I can get by here quite nicely without an interoperability framework. But if I want to do a lot of this kind of thing, and publish my snippets and their accompanying comments on web pages, maybe use my snippets in a CMS, maybe capture my snippets with a browser plugin, then my manual cutting up approach isn't going to get me very far. If I want to start to talk about images and parts of images on the web in a standard way, where the things I say aren't just one-off snippets I put in an email but follow a convention that allows them to be used as <b>content</b> - then IIIF is the only way of doing this. The work this community does is making this real.
+    </p>
+
+    <p>What am I talking about? Here's an example. In my ideal world, everything on Wikipedia is available via IIIF. What exactly do I mean by that? It would be nice if every image on Wikimedia commons had an image service, including the Google Art project content that is often 10-20 thousand pixels on an edge in its largest version. But for me, it's even more important that those images have <i>Canvases</i>, and Wikipedia's groupings and reuse of Wikimedia content is reflected in published IIIF Manifests that carry those canvases. </p>
+
+    <p>By publishing a Canvas, Wikipedia makes that content part of interoperable IIIF space - part of <i>annotation</i> space. In my example here, I have minted a Canvas to stage the content for a particular Wikimedia resouce, or set of resources associated with an Wikipedia entry. But my Canvas is ephemeral. Better for Wikipedia to be the authority for the canvas; they are free to upgrade the image resource(s) painted onto it later; they define that coordinate space for the canvas for others to play in.</p>
+
+    <p>Publishing canvases, wrapped in manifests, isn't really that onerous, and it wouldn't place too many demands on Wikipedia's infrastructure - it's just some JSON. It's not too much of a leap for Wikipedia to support the Presentation API. Some management and sensible choice of width and height values would be required, especially for artworks like this where the media might get upgraded later. Once there are Canvases for Wikimedia resources, and Manifests to collect them, then all of that Wikipedia content joins us here in IIIF space.</p>
+
+    <p>Demo - anno-studio</p>
+
+    <p>If Wikipedia has a Canvas, carried by a Manifest, for <i>Young Woman with a Pearl Necklace</i>, then I can take that Manifest and load it into my annotation tool of choice. I can draw a box round this detail, and write a comment. I can <i>create an annotation</i>. In some future IIIF- and Annotation- everywhere world, the mechanisms so visible here in this demo harness would fade into the background; IIIF and the W3C Web Annotation Data Model become the plumbing behind the scenes, only developers need to know about it.</p>
+
+    <p>In creating an annotation on a region of the Wikipedia Canvas, I have created a new fragment of content. A new thing. We don't usually think of an annotation as an independent piece of content in its own right, we usually think of it as bit of data accompanying something else. What I want to do here in this talk is start thinking about these fragments as independent content, that we can build UI with. Using fragments of the IIIF Universe as editorial, and with conventional editorial.</p>
+
+<p>Right now I want to share my annotation with someone. Maybe I mail it to my friend directly, maybe it gets published somewhere and I share a URI for it. However it gets to my friend, it's a chunk of JSON that says something about some other thing, in this case, a Canvas for Vermeer's painting that lives in a Manifest produced by Wikipedia.</p>
+
+<p>My friend is going to receive this chunk of content, this annotation, by means unspecified, and they are going to launch it in this debug viewer. This reads the annotation, and sees that it is a textual annotation on a Canvas that lives in a Manifest. So it loads the Manifest, finds the Canvas, and renders the canvas with the annotation's target region highlighted, and the text I wrote displayed alongside.
+</p>
+
+<p>Demo cp showing anno</p>
+
+<p>What we just did is create a brand new fragment of content. We'll come back to another example of this in a moment, but let's briefly take a look at what we can find in existing IIIF resources.</p>
+
+<p>annodump demo</p>
+
+<p>This is not a production application! It's a tool to visually check the end result of transforming METS and METS-ALTO data to Manifests, but it was also a bit of an experiment in deconstructing IIIF resources. It's a viewer, but not a regular one. Or a very pretty one.</p>
+
+<p>Here, text lines and identified figures in the text are transformed to annotation content, and this little tool just explores them. The annotation targets are canvas regions, so we can make image API requests to the image service sttached to the image content that paints the canvas.</p>
+
+<p>Examples, C and D, text lines, images</p>
+
+<p>So far, so good. We can see how we could start building up these units of content in completely different kinds of applications. Suppose we are writing an article on a museum or library site. It's already common for people to take advantage of the Image API to generate HTML5 responsive images, or show a detail from a larger image, without having to go the bother of making new derivatives. People are starting to put IIIF-aware cropping tools into their CMS interfaces - that's great!</p>
+
+<p>And it's long been possible to embed a whole object, at the Manifest level - a primary use case of the UV, from the very start before it was a IIIF viewer, was the ability to embed a book, an archival item, an artwork into a web page, just as you can embed a YouTube video. maybe you have a shortcode in your CMS that embeds your configured build of the UV or Mirador, showing a particular manifest.</p>
+
+<p>But what about everything that lies between an image request and a Manifest? And what if you want to focus attention, and render, a particular subset of a larger piece of content? You might not have any intention of rendering this in a page-turner kind of way, you might just be generating simple templates on a web server. In this scenario, there is no particular viewer present, it's just HTML pages. You want to make a page about a specific <i>intellectual object<i>, where that intellectual object doesn't itself have a Manifest because it's a structural part of another manifest. That other manifest might not even mention that structure: you're going to describe it from the outside, looking in, and create a new resource just as we created the egg annotation earlier.</p>
+
+<p>In these scenarios, the manifest is the carrier, but the intellectual objects we want to focus our attention on are below the level of the manifest and not individually described. But we can look inside the manifest, and describe what we're interested in, and then use that description to generate web pages and other user experiences.</p>
+
+<p>We preserve the natural Carrier, the manifest, while freely resuing finer structure, whether it's already described by the carrier or we have to make new descritions from outside.</p>
+
+<p>A bound volume might be a book of short stories. The physical book is the carrier for the short stories. There is a manifest for the book; it's the thing on the shelf, the thing you can hold in your hand. One particular short story is a range within that book. We can use the Range to present just that story. We don't have to mint a new manifest; we just need a way of viewing the range on its own. By making a range we can talk about one short story on its own, by pointing to its parts in the carrier. We don't have to rip up or deface any library books just to read a story!</p>
+
+<p>Consider archival scenarios - here's a single manifest, but it contains many many intellectual objects. Sometimes it makes sense for us to consider them as a whole, when we maybe are thinking about the archival box these things live in. There's probably a good reason they were all catalogued in the same box. Not always. At other times we want to think about them individually, the wider context of the manifest they happen to live in is irrelevant. So we make new structures to describe them, without breaking the link between them and their carrier.</p>
+
+    (example from RS post)
+
+    <p>What are the ways in which we can look into IIIF resources? In the following demos, the structures are not part of the published manifest, but by creating new pieces of JSON content that describe parts of these manifests, I give myself the ability to present arbitrary details. I can focus on whatever my context considers the intellectual object to be; I can present web content about it. These are very simple presentaitons, but the same techniques could be used inside a CMS, with editorial copy - IIIF as editorial.
+
+Looking up and looking down
+IIIF Collector
+Go through the Examples
+
+ --- finish before viewer bits. But mention collections - the collections a manifest is within.
+
+ <p>What I'm not trying to present here is a set of components for extracting these resources and turning then into UI. These are just my MVP-style bits of JavaScript for demonstrating the use of these resources outside of the context of a manifest, in a viewer. Often you might want to have more editorial control of an object, you might want to remove its original context entirely and re-present it very differently. Or in the Range case where we extract a single chapter of a book, you could have a regular viewer but just tell it to only show and allow navigation over a prartcular range, which might be one already asserted in the manifest, or migt be a new one you supply to the viewer - load this manifest, and then only display this range.</p>
+
+<p>A range, externally defined, can be a very useful thing. And the removal of Sequence and reallocation of its job (if required) to ranges suggests some other possibilites.<p>
+
+    <p>
+Suppose your published manifest just contains manifest.items - an array of regular canvases, and they are simple images, one per canvas, targeting the entire canvas. Each image has an image service. This is the 99.9% IIIF use case. It's easy to turn this manifest into UI in the simplest and most unsophisiticated of viewers, or transforming on the server into an HTML page. But your images aren't ideal. They are all uncropped and show parts of the scanner, colour guides and so on. IIIF gives us the means to do this cropping in the model, by annotating parts of images onto the canvas. But you're worried that some clients might stumble on this more complex construction. So you make a Range with behavior "sequence", and create more specific targets for each canvas. You assume that a viewer capable of processing the sequence behavior on a range will be able to generate a user experience from the segment association range, and very simple viewers will just use manifest.items.
+    </p>
+
+    So far we've been looking up and down from the manifest, from the usual unit of distribution. Now we're going to look across.
+
+    <h2>Hyperlinking the archive</h2>
+
+    <p>Galway viewer</p>
+
+    <p>
+    First of all, we're not done with Ranges just yet! 
+    This viewer features a couple of interesting components. The bit in the middle is CanvasPanel, that you might have seen on Wednesday.
+    this viewer is showing an archival item from NUI Galway. It's a memoir written by Michal O'Shaughnessy (fill in details from site) who emigrated to Ireland, became chief engineer of SF.
+    </p>
+
+    <p>
+    And this component at the top is a special Range renderer, that grew out of some work with timelines we did. It turns out that a literal approach to time on the ranges didn't really produce a very satisfactory user experience, so the length of the ranges is now only vaguely proportional to their temporal coverage.
+    </p>
+
+    <p>
+    That's by the by - what I really wanted to show here is the use of hypelinking annotations. The archive contains quite a few links, and they are links to other IIIF resources (show annotation example). 
+    </p>
+
+    <p>At the moment the treatment is quite simple: clicking a hyperlink just opens a modal that sumarises the IIIF target and gives you the chance to navigate to it, elsewhere in a separate viewer. This particular manifest stands all alone, there aren't any links back into it from other IIIF resources. 
+    </p>
+
+    <p>
+    But you can maybe imagine where this might lead. This is a toe in the water for making the digitised content itself part of navigable user journeys, not just the web pages around them. And you could, with some careful use of annotations on the HTML content, produce all sorts of possible user journeys that dip in and out of IIIF space. Links from one part of resource to another, links from one part of a resource to a point in a different IIIF resource, links to web pages, links from web pages that directly target a IIIF target. These latter ones would have to be web annotations too, with the same linking motivation.
+    </p>
+    
+    <h2>Conclusion</h2>
+    <p>A Library, Museum or Archive site today often frames its digitised content in a viewer. Maybe that viewer lives on a catalogue page, maybe it gets reused in blog posts, maybe it gets embedded all around the web. Web pages link to other web pages, and sometimes web pages link to other web pages that host a viewer that displays the digitised content the first page wanted to point you at. That's all great, and autonomous viewers and components that know their way round a manifest are essential. If the viewer is nice and modular like the UV, you can construct different user experiences by using different bits of the viewer in different ways, or adding in other bits, or exploding it all over the page by using the metadata display in one place, the range navigation in another and so on. </p>
+
+    <p>What we also want to do is freely reuse the IIIF model itself, to describe things in manifests without always building new manifests. And then using these extracts, these collected descriptions, to generate UI. The IIIF model works great for this.</p>
+
+    <p>All these millions of published IIIF manifests don't just exist to be processed by viewers. We can cut up the model itself in different ways, we can say new things by making new model as part of a content editorial process. This might involve making new manifests, that can be viewed in a manifest viewer - but it might involve arbitrary creation of annotations, ranges, or alternate sequences, and use of those new resources behind the scenes to generate new user interface on the server as well as the client. IIIF space is very flexible!</p>
+
+    <p>But we do need more content creation tools - more digital scissors, but also glue, paint, string, cartridge paper and spray mount. So that editorial processes have access to this content, and can reshape it. transforming model to simple HTML representations is straightforward, with the kind of helpers in libraries like Manifesto.</p>
+
+    <p>One direction to take this thinking, once we start pulling content out of IIIF resources to build new UI, is the intermingling of regular web content and IIIF, and hyperlinking across the IIIF Universe and in and out of regular web pages. You could go full-IIIF on this and use IIIF manifests with copious annotations to generate web pages, or you could sprinkle a light dusting of IIIF capabilty across your content management and page-generation practices.</p>
+
+    <p>There are more ways to use the content of the IIIF Universe than to box them one by one into a mysterious rectangle.</p>
+
+
+
+
+    Linking
+
+<p>Image/link</p> 
+</body>
+</html>
