@@ -38,7 +38,9 @@
 
     <p>Publishing canvases, wrapped in manifests, isn't really that onerous, and it wouldn't place too many demands on Wikipedia's infrastructure - it's just some JSON. It's not too much of a leap for Wikipedia to support the Presentation API. Some management and sensible choice of width and height values would be required, especially for artworks like this where the media might get upgraded later. Once there are Canvases for Wikimedia resources, and Manifests to collect them, then all of that Wikipedia content joins us here in IIIF space.</p>
 
-    <p>Demo - anno-studio</p>
+    <p><a href="http://bit.ly/anno-start">Anno studio start</p>
+        
+    <p><a href="http://bit.ly/anno-show">Anno studio reveal</p>
 
     <p>If Wikipedia has a Canvas, carried by a Manifest, for <i>Young Woman with a Pearl Necklace</i>, then I can take that Manifest and load it into my annotation tool of choice. I can draw a box round this detail, and write a comment. I can <i>create an annotation</i>. In some future IIIF- and Annotation- everywhere world, the mechanisms so visible here in this demo harness would fade into the background; IIIF and the W3C Web Annotation Data Model become the plumbing behind the scenes, only developers need to know about it.</p>
 
@@ -85,7 +87,7 @@ Go through the Examples
 
  --- finish before viewer bits. But mention collections - the collections a manifest is within.
 
- <p>What I'm not trying to present here is a set of components for extracting these resources and turning then into UI. These are just my MVP-style bits of JavaScript for demonstrating the use of these resources outside of the context of a manifest, in a viewer. Often you might want to have more editorial control of an object, you might want to remove its original context entirely and re-present it very differently. Or in the Range case where we extract a single chapter of a book, you could have a regular viewer but just tell it to only show and allow navigation over a prartcular range, which might be one already asserted in the manifest, or migt be a new one you supply to the viewer - load this manifest, and then only display this range.</p>
+ <p>What I'm not trying to present here is a set of components for extracting these resources and turning then into UI. These are just my MVP-style bits of JavaScript for demonstrating the use of these resources outside of the context of a manifest, in a viewer. Often you might want to have more editorial control of an object, you might want to remove its original context entirely and re-present it very differently. Or in the Range case where we extract a single chapter of a book, you could have a regular viewer but just tell it to only show and allow navigation over a prartcular range, which might be one already asserted in the manifest, or might be a new one you supply to the viewer - load this manifest, and then only display this range.</p>
 
 <p>A range, externally defined, can be a very useful thing. And the removal of Sequence and reallocation of its job (if required) to ranges suggests some other possibilites.<p>
 
